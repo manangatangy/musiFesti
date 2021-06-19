@@ -1,0 +1,30 @@
+[
+  {
+    "bands": [
+      {
+        "name": "Critter Girls",
+        "recordLabel": "ACR"
+      },
+      {
+        "name": "Propeller",
+        "recordLabel": "Pacific Records"
+      }
+    ]
+  },
+  {
+    "name": "Twisted Tour",
+    "bands": [
+      {
+        "name": "Summon",
+        "recordLabel": "Outerscope"
+      },
+      {
+        "name": "Squint-281"
+      },
+      {
+        "name": "Auditones",
+        "recordLabel": "Marner Sis. Recording"
+      }
+    ]
+  }
+]
