@@ -8,7 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manangatangy.musifesti.R
 import com.manangatangy.musifesti.databinding.ActivityMusicFestivalsListBinding
+import com.manangatangy.musifesti.model.ApiResult
+import com.manangatangy.musifesti.model.MusicFestival
 import com.manangatangy.musifesti.viewmodel.MusicFestivalsViewModel
+import com.manangatangy.musifesti.viewmodel.makeDisplayItems
 
 class MusicFestivalsActivity : AppCompatActivity() {
 
@@ -27,9 +30,28 @@ class MusicFestivalsActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_music_festivals_list)
         binding.rvBandList.layoutManager = LinearLayoutManager(this)
 
-        viewModel.getFestivals.observe(this, Observer { displayItems ->
+        viewModel.getFestivals.observe(this, Observer { apiResult ->
+            when(apiResult) {
+                is ApiResult.Ok<List<MusicFestival>> -> {
+                    val displayItems = makeDisplayItems(apiResult.value)
+                    binding.rvBandList.adapter = FestivalsAdapter(displayItems, this)
+                }
+                is ApiResult.HttpError<*> -> {
+                    val code = apiResult.httpException.code()
+                    val message = apiResult.httpException.message()
+                    val bytes = apiResult.response?.errorBody()?.bytes()
+                    val body = bytes?.let {
+                        String(bytes)
+                    } ?: ""
+                    println("httpError code=$code message=[$message] body=[$body]")
+                }
+            }
 //            binding.tvSummary.text = it.title
-            binding.rvBandList.adapter = FestivalsAdapter(displayItems, this)
+            // ApiResult<List<MusicFestival>>
+            //        val displayItems = makeDisplayItems(repository.getFestivals())
+            // ApiResult<List<MusicFestival>>
+//        Log.d("MusicFestivalsViewModel", displayItems.toText())
+
         })
 
 //        showFirstTodo()

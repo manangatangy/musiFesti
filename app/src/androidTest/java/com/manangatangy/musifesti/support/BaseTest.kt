@@ -51,7 +51,7 @@ abstract class BaseTest {
             @Throws(InterruptedException::class)
             override fun dispatch(request: RecordedRequest): MockResponse? =
                 when (request.path) {
-                    requestPath -> MockResponse().setResponseCode(200).setBody(responseBody)
+                    requestPath -> MockResponse().setResponseCode(responseCode).setBody(responseBody)
                     else -> MockResponse().setResponseCode(404)
                 }
         }

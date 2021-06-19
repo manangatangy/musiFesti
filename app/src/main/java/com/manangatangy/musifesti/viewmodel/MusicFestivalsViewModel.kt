@@ -12,9 +12,7 @@ class MusicFestivalsViewModel : ViewModel() {
     private val repository: Repository = Repository()
 
     val getFestivals = liveData(Dispatchers.IO) {
-        val displayItems = makeDisplayItems(repository.getFestivals())
-        Log.d("MusicFestivalsViewModel", displayItems.toText())
-        emit(displayItems)
+        emit(repository.getFestivals())
     }
 }
 
