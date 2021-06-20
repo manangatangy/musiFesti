@@ -10,10 +10,15 @@ import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 import org.junit.After
 import org.junit.Before
+import java.util.concurrent.TimeUnit
 
 abstract class BaseTest {
 
     private val mockWebServer = MockWebServer()
+    private val resource = OkHttp3IdlingResource.create(
+        "okhttp",
+        RetrofitClient.OK_HTTP_CLIENT
+    )
 
     @Before
     fun setUp() {
@@ -21,17 +26,15 @@ abstract class BaseTest {
         // The need for the idling resource is explained here:
         // https://developer.android.com/training/testing/espresso/idling-resource
         // https://medium.com/insiden26/okhttp-idling-resource-for-espresso-462ef2417049
-        IdlingRegistry.getInstance().register(
-            OkHttp3IdlingResource.create(
-                "okhttp",
-                RetrofitClient.OK_HTTP_CLIENT
-            )
-        )
+        IdlingRegistry.getInstance().register(resource)
     }
 
     @After
     fun tearDown() {
-        mockWebServer.shutdown()
+        IdlingRegistry.getInstance().unregister(resource)
+        try {
+            mockWebServer.shutdown()
+        } catch (e: Exception) { }  // Ignored
     }
 
     // Reads text files from musiFesti/app/src/androidTest/assets
@@ -44,15 +47,24 @@ abstract class BaseTest {
             }
 
     // Set the mockWebServer to respond to the specified path.
-    // Any other request will respond not-found
-    // TODO Improve this to handle many request paths, using builder pattern
-    fun setResponse(requestPath: String, responseCode: Int, responseBody: String) {
+    fun setResponse(requestPath: String,
+                    responseCode: Int,
+                    responseBody: String? = null,
+                    headerDelayMillis: Long? = null
+    ) {
         mockWebServer.dispatcher = object : Dispatcher() {
             @Throws(InterruptedException::class)
             override fun dispatch(request: RecordedRequest): MockResponse? =
                 when (request.path) {
-                    requestPath -> MockResponse().setResponseCode(responseCode).setBody(responseBody)
-                    else -> MockResponse().setResponseCode(404)
+                    requestPath -> {
+                        MockResponse().setResponseCode(responseCode).apply {
+                            responseBody?.let { setBody(responseBody) }
+                            headerDelayMillis?.let {
+                                setHeadersDelay(headerDelayMillis, TimeUnit.MILLISECONDS)
+                            }
+                        }
+                    }
+                    else -> null
                 }
         }
     }

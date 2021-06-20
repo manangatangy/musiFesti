@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="medium_margin">8dp</dimen>
+    <dimen name="error_message_margin">8dp</dimen>
+    <dimen name="large_text_size">20sp</dimen>
+    <dimen name="medium_text_size">18sp</dimen>
+    <dimen name="small_text_size">16sp</dimen>
+    <dimen name="large_padding">100dp</dimen>
+    <dimen name="medium_padding">60dp</dimen>
+    <dimen name="small_padding">20dp</dimen>
+    <dimen name="spinner_size">60dp</dimen>
+</resources>
