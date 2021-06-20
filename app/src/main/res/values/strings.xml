@@ -2,6 +2,6 @@
     <string name="app_name">MusiFesti</string>
     <string name="reload_text">Reload</string>
     <string name="loading_text">Loading…</string>
-    <string name="http_error_txt_text">httpError -> code=%1$d \nmessage=[%2$s] \nbody=[%3$s]</string>
+    <string name="http_error_txt_text">httpError -> \ncode=%1$d \nmessage=[%2$s] \nbody=[%3$s]</string>
     <string name="error_txt_text">error -> exception=%1$s</string>
 </resources>

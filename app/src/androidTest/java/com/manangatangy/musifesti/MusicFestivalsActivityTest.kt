@@ -28,10 +28,24 @@ class MusicFestivalsActivityTest : BaseTest() {
         onView(withId(R.id.bn_reload)).check(matches(isDisplayed()))
     }
 
+
+    @Test
+    fun testEmptySuccessfulResponse() {
+        setResponse("/codingtest/api/v1/festivals", 200,
+            "")
+
+        ActivityScenario.launch(MusicFestivalsActivity::class.java)
+
+        onView(withId(R.id.rv_band_list)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.tv_error_message)).check(matches(isDisplayed()))
+        onView(withId(R.id.bn_reload)).check(matches(isDisplayed()))
+    }
+
     @Test
     fun testFailR429Response() {
+        // The actual api provided by EA seems to return 429-Too many requests sometimes
         setResponse("/codingtest/api/v1/festivals", 429,
-            "Too Many Requests")
+            "Too many requests, throttling")
 
         ActivityScenario.launch(MusicFestivalsActivity::class.java)
 
