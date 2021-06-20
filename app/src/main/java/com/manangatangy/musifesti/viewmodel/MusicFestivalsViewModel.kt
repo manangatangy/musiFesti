@@ -37,7 +37,13 @@ fun makeDisplayItems(festivals: List<MusicFestival>): List<DisplayItem> {
     tree.forEachDepthFirst(0) { level, treeNode ->
         Log.d("MusicFestivalsViewModel", "level:${level}, name:${treeNode.name}")
         when(level) {
-            1 -> DisplayItem.RecordLabelItem(treeNode.name)
+            1 -> {
+                // Before each record-label, add a spacer (unless this is list first item)
+                if (displayItems.isNotEmpty()) {
+                    displayItems.add(DisplayItem.SpacerItem)
+                }
+                DisplayItem.RecordLabelItem(treeNode.name)
+            }
             2 -> DisplayItem.BandItem(treeNode.name)
             3 -> DisplayItem.MusicFestivalItem(treeNode.name)
             else -> null        // Don't add starting level zero (root node) to the list
@@ -59,6 +65,7 @@ fun List<DisplayItem>.toText() : String {
                     is DisplayItem.RecordLabelItem -> "$index Label: ${displayItem.recordLabelName}\n"
                     is DisplayItem.BandItem -> "$index   Band: ${displayItem.bandName}\n"
                     is DisplayItem.MusicFestivalItem -> "$index     Festival: ${displayItem.festivalName}\n"
+                    is DisplayItem.SpacerItem -> "$index   Spacer:\n"
                 }
             )
         }

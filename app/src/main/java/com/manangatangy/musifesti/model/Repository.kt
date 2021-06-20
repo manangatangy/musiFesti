@@ -58,7 +58,6 @@ data class Band(
     val recordLabel: String = ""
 )
 
-// https://stackoverflow.com/questions/44298702/what-is-out-keyword-in-kotlin
 sealed class ApiResult<out T> {
     object Loading : ApiResult<Nothing>() {
         override fun toString() = "Result.Loading"

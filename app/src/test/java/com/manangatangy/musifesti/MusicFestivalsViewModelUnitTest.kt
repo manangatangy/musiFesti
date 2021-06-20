@@ -28,14 +28,17 @@ class MusicFestivalsViewModelUnitTest {
         assertEquals(
             "0 Label: ACR\n" +
                     "1   Band: Critter Girls\n" +
-                    "2 Label: Marner Sis. Recording\n" +
-                    "3   Band: Auditones\n" +
-                    "4     Festival: Twisted Tour\n" +
-                    "5 Label: Outerscope\n" +
-                    "6   Band: Summon\n" +
-                    "7     Festival: Twisted Tour\n" +
-                    "8 Label: Pacific Records\n" +
-                    "9   Band: Propeller\n", makeDisplayItems(festivals).toText()
+                    "2   Spacer:\n" +
+                    "3 Label: Marner Sis. Recording\n" +
+                    "4   Band: Auditones\n" +
+                    "5     Festival: Twisted Tour\n" +
+                    "6   Spacer:\n" +
+                    "7 Label: Outerscope\n" +
+                    "8   Band: Summon\n" +
+                    "9     Festival: Twisted Tour\n" +
+                    "10   Spacer:\n" +
+                    "11 Label: Pacific Records\n" +
+                    "12   Band: Propeller\n", makeDisplayItems(festivals).toText()
         )
     }
 
@@ -55,9 +58,10 @@ class MusicFestivalsViewModelUnitTest {
             "0 Label: Marner Sis. Recording\n" +
                     "1   Band: Auditones\n" +
                     "2     Festival: Twisted Tour\n" +
-                    "3 Label: Outerscope\n" +
-                    "4   Band: Summon\n" +
-                    "5     Festival: Twisted Tour\n", displayItems.toText()
+                    "3   Spacer:\n" +
+                    "4 Label: Outerscope\n" +
+                    "5   Band: Summon\n" +
+                    "6     Festival: Twisted Tour\n", displayItems.toText()
         )
     }
 
@@ -81,13 +85,15 @@ class MusicFestivalsViewModelUnitTest {
             "0 Label: ACR\n" +
                     "1   Band: Critter Girls\n" +
                     "2     Festival: Groovy Times!\n" +
-                    "3 Label: Outerscope\n" +
-                    "4   Band: Summon\n" +
-                    "5     Festival: Twisted Tour\n" +
-                    "6 Label: Pacific Records\n" +
-                    "7   Band: Propeller\n" +
-                    "8     Festival: Groovy Times!\n" +
-                    "9     Festival: Twisted Tour\n", makeDisplayItems(festivals).toText()
+                    "3   Spacer:\n" +
+                    "4 Label: Outerscope\n" +
+                    "5   Band: Summon\n" +
+                    "6     Festival: Twisted Tour\n" +
+                    "7   Spacer:\n" +
+                    "8 Label: Pacific Records\n" +
+                    "9   Band: Propeller\n" +
+                    "10     Festival: Groovy Times!\n" +
+                    "11     Festival: Twisted Tour\n", makeDisplayItems(festivals).toText()
         )
     }
 
@@ -111,15 +117,18 @@ class MusicFestivalsViewModelUnitTest {
             "0 Label: ACR\n" +
                     "1   Band: Critter Girls\n" +
                     "2     Festival: Groovy Times!\n" +
-                    "3 Label: Atlantic Records\n" +
-                    "4   Band: Propeller\n" +
-                    "5     Festival: Twisted Tour\n" +
-                    "6 Label: Outerscope\n" +
-                    "7   Band: Summon\n" +
-                    "8     Festival: Twisted Tour\n" +
-                    "9 Label: Pacific Records\n" +
-                    "10   Band: Propeller\n" +
-                    "11     Festival: Groovy Times!\n", makeDisplayItems(festivals).toText()
+                    "3   Spacer:\n" +
+                    "4 Label: Atlantic Records\n" +
+                    "5   Band: Propeller\n" +
+                    "6     Festival: Twisted Tour\n" +
+                    "7   Spacer:\n" +
+                    "8 Label: Outerscope\n" +
+                    "9   Band: Summon\n" +
+                    "10     Festival: Twisted Tour\n" +
+                    "11   Spacer:\n" +
+                    "12 Label: Pacific Records\n" +
+                    "13   Band: Propeller\n" +
+                    "14     Festival: Groovy Times!\n", makeDisplayItems(festivals).toText()
         )
     }
 

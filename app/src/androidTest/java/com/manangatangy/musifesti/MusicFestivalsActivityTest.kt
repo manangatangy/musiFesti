@@ -12,7 +12,6 @@ import org.hamcrest.CoreMatchers.not
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 class MusicFestivalsActivityTest : BaseTest() {
 
@@ -27,7 +26,6 @@ class MusicFestivalsActivityTest : BaseTest() {
         onView(withId(R.id.tv_error_message)).check(matches(not(isDisplayed())))
         onView(withId(R.id.bn_reload)).check(matches(isDisplayed()))
     }
-
 
     @Test
     fun testEmptySuccessfulResponse() {

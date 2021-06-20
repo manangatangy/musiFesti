@@ -14,18 +14,18 @@ import java.util.concurrent.TimeUnit
 
 abstract class BaseTest {
 
-    private val mockWebServer = MockWebServer()
+    // The need for the idling resource is explained here:
+    // https://developer.android.com/training/testing/espresso/idling-resource
+    // https://medium.com/insiden26/okhttp-idling-resource-for-espresso-462ef2417049
     private val resource = OkHttp3IdlingResource.create(
         "okhttp",
         RetrofitClient.OK_HTTP_CLIENT
     )
+    private val mockWebServer = MockWebServer()
 
     @Before
     fun setUp() {
         mockWebServer.start(8080)
-        // The need for the idling resource is explained here:
-        // https://developer.android.com/training/testing/espresso/idling-resource
-        // https://medium.com/insiden26/okhttp-idling-resource-for-espresso-462ef2417049
         IdlingRegistry.getInstance().register(resource)
     }
 

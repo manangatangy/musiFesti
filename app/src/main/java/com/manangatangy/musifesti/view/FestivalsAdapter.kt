@@ -10,6 +10,7 @@ import com.manangatangy.musifesti.R
 import com.manangatangy.musifesti.databinding.ItemBandBinding
 import com.manangatangy.musifesti.databinding.ItemFestivalBinding
 import com.manangatangy.musifesti.databinding.ItemRecordLabelBinding
+import com.manangatangy.musifesti.databinding.ItemSpacerBinding
 
 class FestivalsAdapter(
     private val items: List<DisplayItem>,
@@ -20,6 +21,7 @@ class FestivalsAdapter(
         private const val ITEM_TYPE_RECORD_LABEL = 1
         private const val ITEM_TYPE_BAND = 2
         private const val ITEM_TYPE_FESTIVAL = 3
+        private const val ITEM_TYPE_SPACER = 4
     }
 
     override fun getItemCount() = items.size
@@ -30,6 +32,7 @@ class FestivalsAdapter(
             ITEM_TYPE_RECORD_LABEL -> RecordLabelViewHolder(parent, inflater)
             ITEM_TYPE_BAND -> BandViewHolder(parent, inflater)
             ITEM_TYPE_FESTIVAL -> MusicFestivalViewHolder(parent, inflater)
+            ITEM_TYPE_SPACER -> SpacerViewHolder(parent, inflater)
             else -> throw Exception("View type not supported $viewType")
         }
     }
@@ -40,6 +43,7 @@ class FestivalsAdapter(
             is RecordLabelViewHolder -> holder.bind(item as DisplayItem.RecordLabelItem)
             is BandViewHolder -> holder.bind(item as DisplayItem.BandItem)
             is MusicFestivalViewHolder -> holder.bind(item as DisplayItem.MusicFestivalItem)
+            is SpacerViewHolder -> Unit
         }
     }
 
@@ -47,6 +51,7 @@ class FestivalsAdapter(
         is DisplayItem.RecordLabelItem -> ITEM_TYPE_RECORD_LABEL
         is DisplayItem.BandItem -> ITEM_TYPE_BAND
         is DisplayItem.MusicFestivalItem -> ITEM_TYPE_FESTIVAL
+        is DisplayItem.SpacerItem -> ITEM_TYPE_SPACER
     }
 }
 
@@ -54,6 +59,7 @@ sealed class DisplayItem {
     data class RecordLabelItem(val recordLabelName: String) : DisplayItem()
     data class BandItem(val bandName: String) : DisplayItem()
     data class MusicFestivalItem(val festivalName: String) : DisplayItem()
+    object SpacerItem : DisplayItem()
 }
 
 class RecordLabelViewHolder(
@@ -97,3 +103,11 @@ class MusicFestivalViewHolder(
         }
     }
 }
+
+class SpacerViewHolder(
+    parent: ViewGroup,
+    inflater: LayoutInflater,
+    private val binding: ItemSpacerBinding = DataBindingUtil.inflate(inflater,
+        R.layout.item_spacer,
+        parent, false)
+) : ViewHolder(binding.root)
