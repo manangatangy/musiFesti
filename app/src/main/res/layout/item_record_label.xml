@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/small_padding"
             android:textSize="@dimen/large_text_size"
+            android:textColor="@color/black"
             android:text="@{recordLabelName}"
             tools:text="Record Label 1"
             />

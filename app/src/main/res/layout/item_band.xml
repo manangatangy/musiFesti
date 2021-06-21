@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/medium_padding"
             android:textSize="@dimen/medium_text_size"
+            android:textColor="@color/black"
             android:text="@{bandName}"
             tools:text="Band X"
             />

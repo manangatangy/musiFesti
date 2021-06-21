@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/large_padding"
             android:textSize="@dimen/small_text_size"
+            android:textColor="@color/black"
             android:text="@{festivalName}"
             tools:text="Record Label 1"
             />
