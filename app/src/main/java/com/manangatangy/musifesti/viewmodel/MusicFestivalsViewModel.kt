@@ -1,20 +1,26 @@
 package com.manangatangy.musifesti.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import com.manangatangy.musifesti.model.ApiResult
 import com.manangatangy.musifesti.model.MusicFestival
 import com.manangatangy.musifesti.model.Repository
 import com.manangatangy.musifesti.view.DisplayItem
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MusicFestivalsViewModel : ViewModel() {
     private val repository: Repository = Repository()
 
-    val getFestivals = liveData(Dispatchers.IO) {
-        emit(ApiResult.Loading)
-        emit(repository.getFestivals())
+    private val _festivals = MutableLiveData<ApiResult<List<MusicFestival>>>()
+    val festivals: LiveData<ApiResult<List<MusicFestival>>> = _festivals
+
+    fun retrieveFestivals() {
+        viewModelScope.launch {
+            _festivals.value = ApiResult.Loading
+        }
+        viewModelScope.launch {
+            _festivals.value = repository.getFestivals()
+        }
     }
 }
 
