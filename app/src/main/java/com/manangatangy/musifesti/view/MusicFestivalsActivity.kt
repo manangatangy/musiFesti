@@ -33,7 +33,7 @@ class MusicFestivalsActivity : AppCompatActivity() {
         fetchFestivals()        // Initial load
     }
 
-    val observer = Observer<ApiResult<List<MusicFestival>>> { apiResult ->
+    private val observer = Observer<ApiResult<List<MusicFestival>>> { apiResult ->
         when(apiResult) {
             is ApiResult.Loading -> {
                 binding.groupListLoaded.visibility = View.GONE
