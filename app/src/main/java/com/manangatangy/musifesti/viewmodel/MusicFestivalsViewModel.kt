@@ -24,7 +24,7 @@ class MusicFestivalsViewModel : ViewModel() {
             val fests = withContext(Dispatchers.IO) {
                 repository.getFestivals()
             }
-            _festivals.value = fests    // runs in Dispatchers.Main.immediate coroutineScope
+            _festivals.value = fests    // runs with Dispatchers.Main.immediate dispatcher
         }
     }
 }
