@@ -6,7 +6,9 @@ import com.manangatangy.musifesti.model.ApiResult
 import com.manangatangy.musifesti.model.MusicFestival
 import com.manangatangy.musifesti.model.Repository
 import com.manangatangy.musifesti.view.DisplayItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MusicFestivalsViewModel : ViewModel() {
     private val repository: Repository = Repository()
@@ -19,7 +21,10 @@ class MusicFestivalsViewModel : ViewModel() {
             _festivals.value = ApiResult.Loading
         }
         viewModelScope.launch {
-            _festivals.value = repository.getFestivals()
+            val fests = withContext(Dispatchers.IO) {
+                repository.getFestivals()
+            }
+            _festivals.value = fests    // runs in Dispatchers.Main.immediate coroutineScope
         }
     }
 }

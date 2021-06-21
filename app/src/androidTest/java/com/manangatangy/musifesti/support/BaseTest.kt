@@ -19,7 +19,7 @@ abstract class BaseTest {
     // https://medium.com/insiden26/okhttp-idling-resource-for-espresso-462ef2417049
     private val resource = OkHttp3IdlingResource.create(
         "okhttp",
-        RetrofitClient.OK_HTTP_CLIENT
+        RetrofitClient.okHttpClient
     )
     private val mockWebServer = MockWebServer()
 

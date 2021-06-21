@@ -13,14 +13,14 @@ import retrofit2.http.Headers
 import java.util.concurrent.TimeUnit
 
 class Repository {
-    private var client = RetrofitClient.MUSIC_FESTIVALS_SERVICE
+    private var service = RetrofitClient.musicFestivalsService
 
     // retrofit >2.6.0 supports coroutines directly
     // Ref: https://proandroiddev.com/using-retrofit-2-with-kotlin-coroutines-cb112f0fb738
     suspend fun getFestivals(): ApiResult<List<MusicFestival>> {
         Log.d("Repository", "calling OkHttpClient.getFestivals()")
         return try {
-            ApiResult.Success(client.getFestivals())
+            ApiResult.Success(service.getFestivals())
         } catch (httpException: HttpException) {
             ApiResult.HttpError(httpException, httpException.response())
         } catch (exception: Throwable) {
@@ -32,26 +32,26 @@ class Repository {
 object RetrofitClient  {
     private const val CALL_TIMEOUT = 10L
 
-    val OK_HTTP_CLIENT: OkHttpClient by lazy {
+    interface MusicFestivalsApi {
+        @Headers("Cache-Control: no-cache")
+        @GET("/codingtest/api/v1/festivals")
+        suspend fun getFestivals(): List<MusicFestival>
+    }
+
+    val okHttpClient: OkHttpClient by lazy {
         Log.d("Repository", "new OkHttpClient created")
         OkHttpClient.Builder()
             .callTimeout(CALL_TIMEOUT, TimeUnit.SECONDS)
             .cache(null)
             .build()
     }
-    val MUSIC_FESTIVALS_SERVICE: MusicFestivalsService by lazy {
+    val musicFestivalsService: MusicFestivalsApi by lazy {
         Log.d("Repository", "new Retrofit created")
         Retrofit.Builder()
             .baseUrl(MusicFestivalsApplication.instance.getApiBaseUrl())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .client(OK_HTTP_CLIENT)
-            .build().create(MusicFestivalsService::class.java)
-    }
-
-    interface MusicFestivalsService {
-        @Headers("Cache-Control: no-cache")
-        @GET("/codingtest/api/v1/festivals")
-        suspend fun getFestivals(): List<MusicFestival>
+            .client(okHttpClient)
+            .build().create(MusicFestivalsApi::class.java)
     }
 }
 
