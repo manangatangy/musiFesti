@@ -19,4 +19,5 @@ https://eacp.energyaustralia.com.au/codingtest
 3. `./gradlew testDebugUnitTest`          *Run the unit tests*
 4. `emulator -avd Pixel_XL_API_29`        *Start your emulator or connect your device*
 5. `./gradlew connectedDebugAndroidTest`  *Run the instrumentation tests on connected device*
-6. `adb shell am start -a android.intent.action.MAIN -n com.manangatangy.musifesti/.view.MusicFestivalsActivity`
+6. `./gradlew installDebug`               *Install the debug app*
+7. `adb shell am start -a android.intent.action.MAIN -n com.manangatangy.musifesti/.view.MusicFestivalsActivity`
