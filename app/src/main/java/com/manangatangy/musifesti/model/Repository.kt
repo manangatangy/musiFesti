@@ -38,7 +38,7 @@ interface BaseUrlProvider {
 
 private const val CALL_TIMEOUT = 10L
 
-class RetrofitClientImpl(BaseUrlProvider: BaseUrlProvider): ApiClient, KoinComponent  {
+class RetrofitClientImpl(baseUrlProvider: BaseUrlProvider): ApiClient, KoinComponent  {
 
     private val okHttpClient: OkHttpClient by inject()
 
@@ -55,7 +55,7 @@ class RetrofitClientImpl(BaseUrlProvider: BaseUrlProvider): ApiClient, KoinCompo
     val musicFestivalsService: MusicFestivalsApi by lazy {
         Log.d("Repository", "new Retrofit created")
         Retrofit.Builder()
-            .baseUrl(BaseUrlProvider.getBaseUrl())
+            .baseUrl(baseUrlProvider.getBaseUrl())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .client(okHttpClient)
             .build().create(MusicFestivalsApi::class.java)
