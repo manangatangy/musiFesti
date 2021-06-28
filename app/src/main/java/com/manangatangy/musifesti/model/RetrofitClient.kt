@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 
 private const val CALL_TIMEOUT = 10L
 
-class RetrofitClientImpl(baseUrlProvider: BaseUrlProvider): ApiClient, KoinComponent {
+class RetrofitClient(baseUrlProvider: BaseUrlProvider): ApiClient, KoinComponent {
 
     private val okHttpClient: OkHttpClient by inject()
 

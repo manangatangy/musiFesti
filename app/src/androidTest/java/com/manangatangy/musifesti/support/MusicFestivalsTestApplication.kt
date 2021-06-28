@@ -14,7 +14,7 @@ class MusicFestivalsTestApplication : MusicFestivalsApplication() {
             }
         }
         single<OkHttpClient> { OkHttpClientProviderImpl.getOkHttpClient() }
-        single<ApiClient> { RetrofitClientImpl(get()) }
+        single<ApiClient> { RetrofitClient(get()) }
         factory<Repository> { Repository }
     }
 
