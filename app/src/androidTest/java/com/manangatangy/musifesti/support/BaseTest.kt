@@ -3,23 +3,27 @@ package com.manangatangy.musifesti.support
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.platform.app.InstrumentationRegistry
 import com.jakewharton.espresso.OkHttp3IdlingResource
-import com.manangatangy.musifesti.model.RetrofitClient
+import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 import org.junit.After
 import org.junit.Before
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 import java.util.concurrent.TimeUnit
 
-abstract class BaseTest {
+abstract class BaseTest: KoinComponent {
+
+    private val okHttpClient: OkHttpClient by inject()
 
     // The need for the idling resource is explained here:
     // https://developer.android.com/training/testing/espresso/idling-resource
     // https://medium.com/insiden26/okhttp-idling-resource-for-espresso-462ef2417049
     private val resource = OkHttp3IdlingResource.create(
         "okhttp",
-        RetrofitClient.okHttpClient
+        okHttpClient
     )
     private val mockWebServer = MockWebServer()
 

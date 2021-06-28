@@ -9,9 +9,12 @@ import com.manangatangy.musifesti.view.DisplayItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
-class MusicFestivalsViewModel : ViewModel() {
-    private val repository: Repository = Repository()
+class MusicFestivalsViewModel : ViewModel(), KoinComponent {
+
+    private val repository: Repository by inject()
 
     private val _festivals = MutableLiveData<ApiResult<List<MusicFestival>>>()
     val festivals: LiveData<ApiResult<List<MusicFestival>>> = _festivals

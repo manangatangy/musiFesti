@@ -2,7 +2,6 @@ package com.manangatangy.musifesti.model
 
 import android.util.Log
 import com.google.gson.GsonBuilder
-import com.manangatangy.musifesti.MusicFestivalsApplication
 import okhttp3.OkHttpClient
 import retrofit2.HttpException
 import retrofit2.Response
@@ -11,16 +10,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import java.util.concurrent.TimeUnit
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
-class Repository {
-    private var service = RetrofitClient.musicFestivalsService
+object Repository: KoinComponent {
+    private val apiClient: ApiClient by inject()
 
-    // retrofit >2.6.0 supports coroutines directly
-    // Ref: https://proandroiddev.com/using-retrofit-2-with-kotlin-coroutines-cb112f0fb738
     suspend fun getFestivals(): ApiResult<List<MusicFestival>> {
         Log.d("Repository", "calling OkHttpClient.getFestivals()")
         return try {
-            ApiResult.Success(service.getFestivals())
+            ApiResult.Success(apiClient.getFestivals())
         } catch (httpException: HttpException) {
             ApiResult.HttpError(httpException, httpException.response())
         } catch (exception: Throwable) {
@@ -29,8 +28,23 @@ class Repository {
     }
 }
 
-object RetrofitClient  {
-    private const val CALL_TIMEOUT = 10L
+interface ApiClient {
+    suspend fun getFestivals(): List<MusicFestival>
+}
+
+interface BaseUrlProvider {
+    fun getBaseUrl(): String
+}
+
+private const val CALL_TIMEOUT = 10L
+
+class RetrofitClientImpl(BaseUrlProvider: BaseUrlProvider): ApiClient, KoinComponent  {
+
+    private val okHttpClient: OkHttpClient by inject()
+
+    // retrofit >2.6.0 supports coroutines directly
+    // Ref: https://proandroiddev.com/using-retrofit-2-with-kotlin-coroutines-cb112f0fb738
+    override suspend fun getFestivals(): List<MusicFestival> = musicFestivalsService.getFestivals()
 
     interface MusicFestivalsApi {
         @Headers("Cache-Control: no-cache")
@@ -38,20 +52,27 @@ object RetrofitClient  {
         suspend fun getFestivals(): List<MusicFestival>
     }
 
-    val okHttpClient: OkHttpClient by lazy {
-        Log.d("Repository", "new OkHttpClient created")
-        OkHttpClient.Builder()
-            .callTimeout(CALL_TIMEOUT, TimeUnit.SECONDS)
-            .cache(null)
-            .build()
-    }
     val musicFestivalsService: MusicFestivalsApi by lazy {
         Log.d("Repository", "new Retrofit created")
         Retrofit.Builder()
-            .baseUrl(MusicFestivalsApplication.instance.getApiBaseUrl())
+            .baseUrl(BaseUrlProvider.getBaseUrl())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .client(okHttpClient)
             .build().create(MusicFestivalsApi::class.java)
+    }
+}
+
+interface OkHttpClientProvider {
+    fun getOkHttpClient(): OkHttpClient
+}
+
+object OkHttpClientProviderImpl: OkHttpClientProvider {
+    override fun getOkHttpClient(): OkHttpClient {
+        Log.d("Repository", "new OkHttpClient created")
+        return OkHttpClient.Builder()
+            .callTimeout(CALL_TIMEOUT, TimeUnit.SECONDS)
+            .cache(null)
+            .build()
     }
 }
 
