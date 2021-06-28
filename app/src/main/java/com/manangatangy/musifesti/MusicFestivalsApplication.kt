@@ -15,7 +15,8 @@ open class MusicFestivalsApplication : Application() {
             }
         }
         single<OkHttpClient> { OkHttpClientProviderImpl.getOkHttpClient() }
-        single<ApiClient> { RetrofitClientImpl(get()) }
+//        single<ApiClient> { RetrofitClientImpl(get()) }
+        single<ApiClient> { KtorClientImpl(get()) }
         factory<Repository> { Repository }
     }
 

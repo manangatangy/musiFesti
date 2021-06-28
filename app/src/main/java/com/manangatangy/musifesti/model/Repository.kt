@@ -1,6 +1,7 @@
 package com.manangatangy.musifesti.model
 
 import android.util.Log
+import kotlinx.serialization.Serializable
 import retrofit2.HttpException
 import retrofit2.Response
 import org.koin.standalone.KoinComponent
@@ -30,11 +31,13 @@ object Repository: KoinComponent {
 }
 
 // api response structures
+@Serializable
 data class MusicFestival(
     val name: String? = null,
     val bands: List<Band>? = null
 )
 
+@Serializable
 data class Band(
     val name: String? = null,
     val recordLabel: String = ""
